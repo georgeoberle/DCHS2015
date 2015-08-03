@@ -28,6 +28,7 @@ Did they connect to organization outside of DC?
     + Columbian Institute for the Promotion of Arts and Sciences
     + DC Medical Society
     + National Institute of Science
+  + Military Philosophical Society
 
 
 ###Membership Lists
