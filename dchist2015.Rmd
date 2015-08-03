@@ -1,0 +1,106 @@
+---
+title: "dchs2015"
+author: "George Oberle"
+date: "August 3, 2015"
+output: html_document
+---
+
+
+#Institutionalizing Knowledge in Washington’s Early Republic  
+
+In Democracy in America, Alexander de Tocqueville observed that “In democratic countries the science of association is the mother of science; the progress of all the rest depends upon the progress it has made.” Tocqueville noted that Americans formed numerous associations for distinct purposes and whose goals included establishing schools and churches, and spreading knowledge through the publication of information of interest to like-minded citizens.  The residents of the District of Columbia, America’s federal city, sought to create a thriving metropolis crowded with a vibrant and extensive community of scholars. Many hoped a national institution would materialize to promote the expansion of knowledge and learning. This paper explores the purpose and composition of the myriad societies in the early federal city, especially scientific, literary and proto-professional societies, 1815-1850. This paper examines the shared relationships between these groups using computational tools and methods to develop network analysis using society membership lists.
+
+##Introduction
+In addition to being the site for the national government, the District of Columbia was the home of many different societies dedicated to the collection and dissemination of useful knowledge. Typically, scholars characterize these institutions as localized groups with grand designs limited by parochial insights and miserly pocketbooks. This paper seeks to explore the make-up of the local institutions and to utilize computational methods to examine if these local institutions were more cosmopolitan in nature. 
+
+Introduction
+Hook
+Questions
+What were the institutions and what did they do?
+Who joined these institutions?
+Were they interrelated?
+Did they connect to organization outside of DC?
+
+##Methods
+  * Organizations
+  * Membership Lists
+	+ Columbian Agricultural Society
+    + Columbian Institute for the Promotion of Arts and Sciences
+    + DC Medical Society
+    + National Institute of Science
+
+
+###Membership Lists
+
+
+Data
+
+##Appendix 1 List of Societies in Washington D.C.
+Columbian Institute
+Washington D.C. 
+
+
+Methods
+  Organizations
+	Membership Lists
+		Columbian Agricultural Society
+		Columbian Institute for the Promotion of Arts and Sciences
+		National Institute of Science
+	
+Analysis
+
+Conclusion
+
+
+
+Columbian Agricultural Society
+Columbian Institute for the Promotion of Arts and Sciences
+Medical Society of the District of Columbia
+Enosinian Society –Columbian College
+Washington Relief Society 1830
+Female Union Benevolent Society of Washington City
+Washington Monument Society
+Washington Literary Society
+Washington Library Company
+Washington Female Orphan Society
+Washington Orphan Asylum
+Washington Botanical Society
+Washington Bible Society
+Washington Benevolent Society of Young Men
+Washington Art League
+Washington Art Association
+Columbia Typographical Society
+Odd Fellows
+Grand United Order of Odd fellows
+Grand United Order of colored Odd fellows
+National Institution (Institute) for the Promotion of Science
+Mechanics Institute
+Consumers Protective Association
+Columbian Institution for the Deaf, Dumb and Blind
+Columbian Hospital for Women and Lying in Asylum
+American Tract Society
+American Colonization Society
+  The establishment of the seat of government 
+nation’s capital in Washington D.C. 
+
+Data
+Columbian Institute
+Washington D.C. 
+Introduction
+Hook
+Questions
+What were the institutions and what did they do?
+Who joined these institutions?
+Were they interrelated?
+Did they connect to organization outside of DC?
+
+Methods
+	Organizations
+	Membership Lists
+		Columbian Agricultural Society
+		Columbian Institute for the Promotion of Arts and Sciences
+		National Institute of Science
+	
+Analysis
+
+Conclusion
