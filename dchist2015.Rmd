@@ -32,9 +32,38 @@ Did they connect to organization outside of DC?
 
 
 ###Membership Lists
+<h3>Membership Rolls: Collecting Data</h3>
+
 
 
 Data
+
+```{r}
+# 
+
+#Load tools
+library (sp)
+library (rgdal)
+library (rgeos)
+library (maptools)
+library (ggmap)
+library (ggplot2)
+library (mullenMisc)
+library (magrittr)
+library (stringr)
+library (dplyr)
+library (RColorBrewer)
+library (igraph)
+```
+
+```{r}
+
+```
+
+
+
+
+
 
 ##Appendix 1 List of Societies in Washington D.C.
 Columbian Institute
