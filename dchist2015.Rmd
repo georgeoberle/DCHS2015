@@ -39,7 +39,6 @@ Did they connect to organization outside of DC?
 Data
 
 ```{r}
-# 
 
 #Load tools
 library (sp)
@@ -57,12 +56,51 @@ library (igraph)
 ```
 
 ```{r}
+#Load membership rollls data
+
+data = read.csv("~/Desktop/DCHS2015/data/learnsocmemb.csv")
+
+```
+
+After reading the data this sample set of membership lists from a variety of different learned societies between x and y. The list has 2077 members lists coming from x organizations.
+
+```{r}
+
+data_members <- graph.data.frame(data, directed = FALSE)
+plot (data_members, vertex.label = NA)
+title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
 ```
 
 
+```{r}
+data_members <- graph.data.frame(data, directed = FALSE)
+plot (data_members)
+title("Test", sub = "A network graph of members with name labels",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+
+#Error in nchar(labels) : invalid multibyte string 69
+```
+
+```{r}
+V(data_members)
+bipartite.mapping(data_members)
+V(data_members)$type <- bipartite.mapping(data_members)$type
+is.bipartite(data_members)
+plot(data_members, layout = layout.bipartite, vertex.label = NA)
+title("Test", sub = "A bipartite layout of members and organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+```
 
 
+```{r}
+full_members <- bipartite.projection(data_members)
+```
+
+
+```{r}
+#Just the organizations
+plot(full_members$proj2)
+title("Test", sub = "Just the Organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+```
 
 
 ##Appendix 1 List of Societies in Washington D.C.
