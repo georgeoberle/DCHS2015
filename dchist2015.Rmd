@@ -102,6 +102,17 @@ plot(full_members$proj2)
 title("Test", sub = "Just the Organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
 ```
 
+```{r}
+E(full_members$proj2)
+E(full_members$proj2)$weight
+```
+
+
+```{r}
+plot(full_members$proj2, edge.width = E(full_members$proj2)$weight)
+title("Suporters of Founding a National University", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+```
+
 
 ##Appendix 1 List of Societies in Washington D.C.
 Columbian Institute
@@ -172,3 +183,22 @@ Methods
 Analysis
 
 Conclusion
+
+
+Ask Lincoln for help with this. I am having trouble with this and the
+library one.
+Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=Abingdon+VA&sensor=false
+Error in readLines(connect) : cannot open the connection
+In addition: Warning message:
+In readLines(connect) : unable to resolve 'maps.googleapis.com'
+
+```{r}
+milit_soc <- read.csv("~/Desktop/DCHS2015/data/militacadlist.csv") 
+milit_soc<- milit_soc%>%
+mutate(location=paste (City, State))
+location_geocoded <- geocode(milit_soc$location)
+milit_soc_geocoded <- cbind(milit_soc, location_geocoded)
+milit_soc_geocoded
+write.csv(milit_soc_geocoded, file = "militacadlist.csv")
+```
+
