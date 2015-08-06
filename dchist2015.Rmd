@@ -33,7 +33,7 @@ Did they connect to organization outside of DC?
 
 ###Membership Lists
 <h3>Membership Rolls: Collecting Data</h3>
-
+The availability of data about th
 
 
 Data
@@ -58,7 +58,8 @@ library (igraph)
 ```{r}
 #Load membership rollls data
 
-data = read.csv("~/Desktop/DCHS2015/data/learnsocmemb.csv")
+data = read.csv("~/Desktop/DCHS2015/data/learnsoc1.csv")
+
 
 ```
 
@@ -110,7 +111,15 @@ E(full_members$proj2)$weight
 
 ```{r}
 plot(full_members$proj2, edge.width = E(full_members$proj2)$weight)
-title("Suporters of Founding a National University", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+```
+
+
+```{r}
+org <- ggplot(data, aes(Organization))
+org + geom_bar(width=.5, fill="blue", color="darkblue") + coord_flip() +ggtitle ("Total Elected Members APS by Residency 1768-1828")+ggtitle ("Total Members of Societies Connected to National University 1768-1828")
+
+
 ```
 
 
@@ -192,6 +201,8 @@ Error in readLines(connect) : cannot open the connection
 In addition: Warning message:
 In readLines(connect) : unable to resolve 'maps.googleapis.com'
 
+
+Below here is not really
 ```{r}
 milit_soc <- read.csv("~/Desktop/DCHS2015/data/militacadlist.csv") 
 milit_soc<- milit_soc%>%
@@ -202,3 +213,19 @@ milit_soc_geocoded
 write.csv(milit_soc_geocoded, file = "militacadlist.csv")
 ```
 
+
+State Born for the Government Data.
+
+
+Mapping The Larger Picture. Need Library Dataset and add above military.
+
+
+
+
+#create period function
+periodize <- function(year) {
+  period <- NA
+  period <- ifelse(year >= 1776, "Colonial", period)
+  period <- ifelse(year >= 1776 & year <= 1828, "Early National", period)
+  period <- ifelse(year >1828, "Antebellum", period)
+  return(period)
