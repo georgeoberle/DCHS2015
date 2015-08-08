@@ -213,6 +213,43 @@ milit_soc_geocoded
 write.csv(milit_soc_geocoded, file = "militacadlist.csv")
 ```
 
+```{r}
+#Load data
+schol = read.csv("~/Desktop/DCHS2015/data/schol-soc-geocoded.csv")
+coll = read.csv("~/Desktop/DCHS2015/data/early_colleges_geocoded.csv")
+#Preparing 1830 Map
+map_sp <- readOGR("nhgis-shp/", "state_1830")
+class(map_sp)
+str(map_sp, max.level = 2)
+map_sp@bbox
+map_sp@proj4string
+head(map_sp@data)
+plot(map_sp)
+
+map_sp1 <- readOGR("nhgis-shp/", "state_1840")
+class(map_sp1)
+str(map_sp1, max.level = 2)
+map_sp1@bbox
+map_sp1@proj4string
+head(map_sp1@data)
+plot(map_sp1)
+
+map1830<- readOGR ("nhgis-shp" , "state_1830")
+map1840<- readOGR ("nhgis-shp" , "state_1840")
+
+fort<- fortify (map1830)
+fort2<- fortify (map1840)
+
+ggplot () + geom_map(data=fort, map=fort, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=coll, aes (x=lon, y=lat), color="red") + coord_map()
+
+ggplot () + geom_map(data=fort, map=fort, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=coll, aes (x=lon, y=lat, color=factor(established)) ) + coord_map()
+
+ggplot () + geom_map(data=fort, map=fort, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=coll, aes (x=lon, y=lat, color=factor(period), shape=factor(period)) ) + coord_map()
+
+ggplot () + geom_map(data=fort2, map=fort2, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=coll, aes (x=lon, y=lat, color=factor(period), shape=factor(period)) ) + coord_map()
+ 
+```
+
 
 State Born for the Government Data.
 
