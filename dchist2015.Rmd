@@ -202,15 +202,17 @@ In addition: Warning message:
 In readLines(connect) : unable to resolve 'maps.googleapis.com'
 
 
-Below here is not really
+
 ```{r}
-milit_soc <- read.csv("~/Desktop/DCHS2015/data/militacadlist.csv") 
+#I would like to use this to compare with development of other institutions.
+milit_soc <- read.csv("~/Desktop/DCHS2015/data/militacadlist.csv")
 milit_soc<- milit_soc%>%
 mutate(location=paste (City, State))
 location_geocoded <- geocode(milit_soc$location)
 milit_soc_geocoded <- cbind(milit_soc, location_geocoded)
 milit_soc_geocoded
 write.csv(milit_soc_geocoded, file = "militacadlist.csv")
+
 ```
 
 ```{r}
@@ -251,6 +253,8 @@ ggplot () + geom_map(data=fort2, map=fort2, aes(x=long, y=lat, group=group, map_
 ```
 
 
+
+
 State Born for the Government Data.
 
 
@@ -266,3 +270,10 @@ periodize <- function(year) {
   period <- ifelse(year >= 1776 & year <= 1828, "Early National", period)
   period <- ifelse(year >1828, "Antebellum", period)
   return(period)
+  
+ #These are the processes to use to add columns for geocoded.
+early_colleges<- early_colleges%>%
+mutate(location=paste (city, state))
+location_geocoded <- geocode(early_colleges$location)
+early_colleges_geocoded <- cbind(early_colleges, location_geocoded)
+early_colleges_geocoded
