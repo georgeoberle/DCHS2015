@@ -60,10 +60,9 @@ library (igraph)
 
 data = read.csv("~/Desktop/DCHS2015/data/learnsoc1.csv")
 
-
 ```
 
-After reading the data this sample set of membership lists from a variety of different learned societies between x and y. The list has 2077 members lists coming from x organizations.
+After reading the data this sample set of membership lists from a variety of different learned societies between x and y. The list has 2262 members lists coming from x organizations.
 
 ```{r}
 
@@ -117,8 +116,7 @@ title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.m
 
 ```{r}
 org <- ggplot(data, aes(Organization))
-org + geom_bar(width=.5, fill="blue", color="darkblue") + coord_flip() +ggtitle ("Total Elected Members APS by Residency 1768-1828")+ggtitle ("Total Members of Societies Connected to National University 1768-1828")
-
+org + geom_bar(width=.5, fill="blue", color="darkblue") + coord_flip() +ggtitle ("Total Members of Societies DC relations")
 
 ```
 
@@ -204,14 +202,14 @@ In readLines(connect) : unable to resolve 'maps.googleapis.com'
 
 
 ```{r}
-#I would like to use this to compare with development of other institutions.
+#I would like to use this to compare with development of other institutions. 
 milit_soc <- read.csv("~/Desktop/DCHS2015/data/militacadlist.csv")
 milit_soc<- milit_soc%>%
 mutate(location=paste (City, State))
 location_geocoded <- geocode(milit_soc$location)
 milit_soc_geocoded <- cbind(milit_soc, location_geocoded)
 milit_soc_geocoded
-write.csv(milit_soc_geocoded, file = "militacadlist.csv")
+write.csv(milit_soc_geocoded, file = "milit_soc_geocoded.csv")
 
 ```
 
@@ -219,6 +217,7 @@ write.csv(milit_soc_geocoded, file = "militacadlist.csv")
 #Load data
 schol = read.csv("~/Desktop/DCHS2015/data/schol-soc-geocoded.csv")
 coll = read.csv("~/Desktop/DCHS2015/data/early_colleges_geocoded.csv")
+militgeo = read.csv("~/Desktop/DCHS2015/data/militacadlist.csv")
 #Preparing 1830 Map
 map_sp <- readOGR("nhgis-shp/", "state_1830")
 class(map_sp)
@@ -243,6 +242,8 @@ fort<- fortify (map1830)
 fort2<- fortify (map1840)
 
 ggplot () + geom_map(data=fort, map=fort, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=coll, aes (x=lon, y=lat), color="red") + coord_map()
+
+ggplot () + geom_map(data=fort2, map=fort2, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=milit_soc_geocoded, aes (x=lon, y=lat), color="red") + coord_map()
 
 ggplot () + geom_map(data=fort, map=fort, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=coll, aes (x=lon, y=lat, color=factor(established)) ) + coord_map()
 
@@ -277,3 +278,5 @@ mutate(location=paste (city, state))
 location_geocoded <- geocode(early_colleges$location)
 early_colleges_geocoded <- cbind(early_colleges, location_geocoded)
 early_colleges_geocoded
+
+#Thanks to Colleagues
