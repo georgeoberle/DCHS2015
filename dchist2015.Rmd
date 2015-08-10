@@ -237,13 +237,15 @@ plot(map_sp1)
 
 map1830<- readOGR ("nhgis-shp" , "state_1830")
 map1840<- readOGR ("nhgis-shp" , "state_1840")
+map1850<- readOGR ("nhgis-shp" , "state_1850")
 
 fort<- fortify (map1830)
 fort2<- fortify (map1840)
+fort3<- fortify (map1850)
 
 ggplot () + geom_map(data=fort, map=fort, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=coll, aes (x=lon, y=lat), color="red") + coord_map()
 
-ggplot () + geom_map(data=fort2, map=fort2, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=milit_soc_geocoded, aes (x=lon, y=lat), color="red") + coord_map()
+ggplot () + geom_map(data=fort3, map=fort3, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=milit_soc_geocoded, aes (x=lon, y=lat), color="red") + coord_map()
 
 ggplot () + geom_map(data=fort, map=fort, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=coll, aes (x=lon, y=lat, color=factor(established)) ) + coord_map()
 
