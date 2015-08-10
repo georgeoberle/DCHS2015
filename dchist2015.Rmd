@@ -217,7 +217,7 @@ write.csv(milit_soc_geocoded, file = "milit_soc_geocoded.csv")
 #Load data
 schol = read.csv("~/Desktop/DCHS2015/data/schol-soc-geocoded.csv")
 coll = read.csv("~/Desktop/DCHS2015/data/early_colleges_geocoded.csv")
-militgeo = read.csv("~/Desktop/DCHS2015/data/militacadlist.csv")
+militgeo = read.csv("~/Desktop/DCHS2015/data/milit_soc_geocoded.csv")
 #Preparing 1830 Map
 map_sp <- readOGR("nhgis-shp/", "state_1830")
 class(map_sp)
