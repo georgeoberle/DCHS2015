@@ -77,8 +77,6 @@ title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, c
 data_members <- graph.data.frame(data, directed = FALSE)
 plot (data_members)
 title("Test", sub = "A network graph of members with name labels",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
-
-#Error in nchar(labels) : invalid multibyte string 69
 ```
 
 ```{r}
@@ -105,11 +103,13 @@ title("Test", sub = "Just the Organizations",cex.main = 2,   font.main= 4, col.m
 ```{r}
 E(full_members$proj2)
 E(full_members$proj2)$weight
+range01 <- function(x){(x-min(x))/(max(x)-min(x))}
+range01(E(full_members$proj2)$weight)
 ```
 
 
 ```{r}
-plot(full_members$proj2, edge.width = E(full_members$proj2)$weight)
+plot(full_members$proj2, edge.width = range01(E(full_members$proj2)$weight) * 20)
 title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
 ```
 
@@ -255,6 +255,16 @@ ggplot () + geom_map(data=fort2, map=fort2, aes(x=long, y=lat, group=group, map_
  
 ```
 
+```{r}
+library(leaflet)
+
+leaflet() %>%
+  addTiles() %>%
+  addPolygons(data = map1850, fillOpacity = 0, weight = 1, color = "black") %>%
+  addCircleMarkers(data = schol, color = "blue", fillOpacity = 0) %>%
+  addCircleMarkers(data = coll, color = "red") %>%
+  addCircleMarkers(data = militgeo, color = "green")
+```
 
 
 
