@@ -272,7 +272,7 @@ leaflet() %>%
 libraries <- read.csv("~/Desktop/DCHS2015/data/libraries_davies.csv")
 periodize <- function(founding_date) {
   period <- NA
-  period <- ifelse(founding_date >= 1776, "Colonial", period)
+  period <- ifelse(founding_date <= 1776, "Colonial", period)
   period <- ifelse(founding_date >= 1776 & founding_date <= 1828, "Early National", period)
   period <- ifelse(founding_date >1828, "Antebellum", period)
   return(period)}
@@ -282,7 +282,7 @@ mutate(period = periodize(founding_date))
 write.csv(libraries, file = "libraries_period.csv")
 
 
-mutate(location=paste (City, State))
+mutate(location=paste (City, State)
 location_geocoded <- geocode(milit_soc$location)
 milit_soc_geocoded <- cbind(milit_soc, location_geocoded)
 milit_soc_geocoded
