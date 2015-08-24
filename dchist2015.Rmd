@@ -60,6 +60,7 @@ library (igraph)
 #Load membership rollls data
 
 data = read.csv("~/Desktop/DCHS2015/data/learnsoc1.csv")
+datanew = read.csv("~/Desktop/DCHS2015/data/newdecnetwork.csv")
 
 ```
 
@@ -71,6 +72,12 @@ data_members <- graph.data.frame(data, directed = FALSE)
 plot (data_members, vertex.label = NA)
 title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
+dc_data_members <- graph.data.frame(datanew, directed = FALSE)
+plot (dc_data_members, vertex.label = NA)
+title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+
+
+
 ```
 
 
@@ -78,6 +85,7 @@ title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, c
 data_members <- graph.data.frame(data, directed = FALSE)
 plot (data_members)
 title("Test", sub = "A network graph of members with name labels",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+
 ```
 
 ```{r}
@@ -87,17 +95,32 @@ V(data_members)$type <- bipartite.mapping(data_members)$type
 is.bipartite(data_members)
 plot(data_members, layout = layout.bipartite, vertex.label = NA)
 title("Test", sub = "A bipartite layout of members and organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+
+V(dc_data_members)
+bipartite.mapping(dc_data_members)
+V(dc_data_members)$type <- bipartite.mapping(dc_data_members)$type
+is.bipartite(dc_data_members)
+plot(dc_data_members, layout = layout.bipartite, vertex.label = NA)
+title("Test", sub = "A bipartite layout of members and organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+
+
 ```
 
 
 ```{r}
 full_members <- bipartite.projection(data_members)
+
+full_members_DC <- bipartite.projection(dc_data_members)
+
 ```
 
 
 ```{r}
 #Just the organizations
 plot(full_members$proj2)
+title("Test", sub = "Just the Organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+
+plot(full_members_DC$proj2)
 title("Test", sub = "Just the Organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
 ```
 
@@ -106,18 +129,31 @@ E(full_members$proj2)
 E(full_members$proj2)$weight
 range01 <- function(x){(x-min(x))/(max(x)-min(x))}
 range01(E(full_members$proj2)$weight)
+
+E(full_members_DC$proj2)
+E(full_members_DC$proj2)$weight
+range01 <- function(x){(x-min(x))/(max(x)-min(x))}
+range01(E(full_members_DC$proj2)$weight)
 ```
 
 
 ```{r}
 plot(full_members$proj2, edge.width = range01(E(full_members$proj2)$weight) * 20)
 title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+
+plot(full_members_DC$proj2, edge.width = range01(E(full_members_DC$proj2)$weight) * 20)
+title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+
 ```
 
 
 ```{r}
 org <- ggplot(data, aes(Organization))
 org + geom_bar(width=.5, fill="blue", color="darkblue") + coord_flip() +ggtitle ("Total Members of Societies DC relations")
+
+dcorg <- ggplot (datanew, aes(Organization), scale_x_log10())
+dcorg + geom_bar(width=.5, fill="blue", color="darkblue") + coord_flip() +ggtitle ("Total Members of Societies DC relations")
+#log scale not working
 
 ```
 
