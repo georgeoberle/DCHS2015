@@ -67,7 +67,6 @@ datanew = read.csv("~/Desktop/DCHS2015/data/newdecnetwork.csv")
 After reading the data this sample set of membership lists from a variety of different learned societies between x and y. The list has 2262 members lists coming from x organizations.
 
 ```{r}
-
 data_members <- graph.data.frame(data, directed = FALSE)
 plot (data_members, vertex.label = NA)
 title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
@@ -76,8 +75,6 @@ dc_data_members <- graph.data.frame(datanew, directed = FALSE)
 plot (dc_data_members, vertex.label = NA)
 title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
-
-
 ```
 
 
@@ -85,6 +82,7 @@ title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, c
 data_members <- graph.data.frame(data, directed = FALSE)
 plot (data_members)
 title("Test", sub = "A network graph of members with name labels",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+
 
 ```
 
@@ -96,8 +94,9 @@ is.bipartite(data_members)
 plot(data_members, layout = layout.bipartite, vertex.label = NA)
 title("Test", sub = "A bipartite layout of members and organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
-V(dc_data_members)
-bipartite.mapping(dc_data_members)
+#V(dc_data_members)
+#bipartite.mapping(dc_data_members)
+
 V(dc_data_members)$type <- bipartite.mapping(dc_data_members)$type
 is.bipartite(dc_data_members)
 plot(dc_data_members, layout = layout.bipartite, vertex.label = NA)
@@ -141,10 +140,23 @@ range01(E(full_members_DC$proj2)$weight)
 plot(full_members$proj2, edge.width = range01(E(full_members$proj2)$weight) * 20)
 title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
 
-plot(full_members_DC$proj2, edge.width = range01(E(full_members_DC$proj2)$weight) * 20)
+plot(full_members_DC$proj2, vertex.size = 10, layout= layout.fruchterman.reingold,edge.curved=TRUE,vertex.color="blue", edge.color="red", edge.width = range01(E(full_members_DC$proj2)$weight) * 20)
 title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
 
 ```
+
+```{r}
+#Count
+
+datanew %>%
+  group_by(Organization) %>%
+  summarize(n = n()) %>%
+  filter(n > 1) %>%
+  arrange(desc(n))
+
+```
+
+
 
 
 ```{r}
