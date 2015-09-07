@@ -60,6 +60,7 @@ library (igraph)
 #Load membership rollls data
 
 data = read.csv("~/Desktop/DCHS2015/data/learnsoc1.csv")
+
 datanew = read.csv("~/Desktop/DCHS2015/data/newdecnetwork.csv")
 
 ```
@@ -135,7 +136,7 @@ range01 <- function(x){(x-min(x))/(max(x)-min(x))}
 range01(E(full_members_DC$proj2)$weight)
 ```
 
-
+This Range makes the scale smaller to improve viewing.
 ```{r}
 plot(full_members$proj2, edge.width = range01(E(full_members$proj2)$weight) * 20)
 title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
@@ -157,9 +158,34 @@ datanew %>%
 ```
 
 
+```{r}
+#Load Silliman's Journal data
+datascisoc_1825 = read.csv("~/Desktop/DCHS2015/data/Scientific_Societies_1825_American_Journal_of_Science_and_Arts.csv")
+```
+
+```{r}
+#series of functions that add new variable called location by combining City and State and then use the geocode api from google. Then bind the two dataframes together and save them.
+datascisoc_1825<- datascisoc_1825%>%
+mutate(location=paste (City, State))
+location_geocoded <- geocode(datascisoc_1825$location, source = "google")
+datascisoc_1825_geocoded <- cbind(datascisoc_1825, location_geocoded)
+datascisoc_1825_geocoded
+write.csv(datascisoc_1825_geocoded, file = "~/Desktop/DCHS2015/data/datascisoc_1825_geocoded.csv")
+
+```
+
 
 
 ```{r}
+#This is a bar graph of the number of societies established by date reported by Silliman.
+state <- ggplot (datascisoc_1825_geocoded, aes (x=State))
+state + geom_bar (width=.5, fill="blue") + xlab ("State")
+
+year <- ggplot (datascisoc_1825_geocoded, aes (x=Year.Established)) 
+year + geom_bar (fill="red") + xlab ("Year Established")) +ggtitle ("Learned Societies Reported in Silliman's Journal-1825")
+#To do Need to figure out better x scale label to show all dates.
+
+
 org <- ggplot(data, aes(Organization))
 org + geom_bar(width=.5, fill="blue", color="darkblue") + coord_flip() +ggtitle ("Total Members of Societies DC relations")
 
@@ -241,12 +267,7 @@ Analysis
 Conclusion
 
 
-Ask Lincoln for help with this. I am having trouble with this and the
-library one.
-Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=Abingdon+VA&sensor=false
-Error in readLines(connect) : cannot open the connection
-In addition: Warning message:
-In readLines(connect) : unable to resolve 'maps.googleapis.com'
+
 
 
 
@@ -294,7 +315,7 @@ fort3<- fortify (map1850)
 
 ggplot () + geom_map(data=fort, map=fort, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=coll, aes (x=lon, y=lat), color="red") + coord_map()
 
-ggplot () + geom_map(data=fort3, map=fort3, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=milit_soc_geocoded, aes (x=lon, y=lat), color="red") + coord_map()
+ggplot () + geom_map(data=fort3, map=fort3, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=militgeo, aes (x=lon, y=lat), color="red") + coord_map()
 
 ggplot () + geom_map(data=fort, map=fort, aes(x=long, y=lat, group=group, map_id=id), color="black", fill="white") +geom_point(data=coll, aes (x=lon, y=lat, color=factor(established)) ) + coord_map()
 
@@ -324,23 +345,37 @@ periodize <- function(founding_date) {
   period <- ifelse(founding_date <= 1776, "Colonial", period)
   period <- ifelse(founding_date >= 1776 & founding_date <= 1828, "Early National", period)
   period <- ifelse(founding_date >1828, "Antebellum", period)
-  return(period)}
+  return(period)
+  period <- ifelse(founding_date >1860, "War and Postwar", period)
+  return(period)
+  }
   
 libraries <- libraries %>%
 mutate(period = periodize(founding_date))
 write.csv(libraries, file = "libraries_period.csv")
 
+libraries_period <- read.csv("~/Desktop/DCHS2015/libraries_period.csv")
+#This loads a list of 2000 Libraries from the list of 8528 gathered from the Davies Project. The original had 16 variables. This process combines the locality and state into one variable making lib_per1 into 17 variables. Finally libper1_geocoded uses the Google api to geocode the items as a process yeilding 2 new variables. Using the same named function bind the lib_per1 and libper1_geocoded into one file and save it to the drive.
+lib_per1 <- read.csv("~/Desktop/DCHS2015/libperiod1.csv")
+lib_per1<- lib_per1%>%
+mutate(location=paste (locality, state))
+libper1_geocoded <- geocode(lib_per1$location, source = "google")
+libper1_geocoded <- cbind(lib_per1, libper1_geocoded)
+libper1_geocoded
+write.csv(libper1_geocoded, file = "libper1_geocoded.csv")
 
-mutate(location=paste (City, State)
+
+
+
+
+
+milit_soc <- read.csv("~/Desktop/DCHS2015/data/militacadlist.csv")
+milit_soc<- milit_soc%>%
+mutate(location=paste (City, State))
 location_geocoded <- geocode(milit_soc$location)
 milit_soc_geocoded <- cbind(milit_soc, location_geocoded)
 milit_soc_geocoded
 write.csv(milit_soc_geocoded, file = "milit_soc_geocoded.csv")
-  early_colleges_geocoded %>%
- # mutate(period = periodize(established))
-```
-
-
 State Born for the Government Data.
 
 
