@@ -66,10 +66,6 @@ datanew = read.csv("~/Desktop/DCHS2015/data/newdecnetwork.csv")
 
 
 ```{r}
-data_members <- graph.data.frame(data, directed = FALSE)
-plot (data_members, vertex.label = NA)
-title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
-
 dc_data_members <- graph.data.frame(datanew, directed = FALSE)
 plot (dc_data_members, vertex.label = NA)
 title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
@@ -77,36 +73,21 @@ title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, c
 ```
 
 
-```{r}
-data_members <- graph.data.frame(data, directed = FALSE)
-plot (data_members)
-title("Test", sub = "A network graph of members with name labels",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
-
-
-```
 
 ```{r}
-V(data_members)
-bipartite.mapping(data_members)
-V(data_members)$type <- bipartite.mapping(data_members)$type
-is.bipartite(data_members)
-plot(data_members, layout = layout.bipartite, vertex.label = NA)
-title("Test", sub = "A bipartite layout of members and organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
-#V(dc_data_members)
-#bipartite.mapping(dc_data_members)
+V(dc_data_members)
+bipartite.mapping(dc_data_members)
 
 V(dc_data_members)$type <- bipartite.mapping(dc_data_members)$type
 is.bipartite(dc_data_members)
 plot(dc_data_members, layout = layout.bipartite, vertex.label = NA)
 title("Test", sub = "A bipartite layout of members and organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
-
 ```
 
 
 ```{r}
-full_members <- bipartite.projection(data_members)
 
 full_members_DC <- bipartite.projection(dc_data_members)
 
@@ -115,18 +96,12 @@ full_members_DC <- bipartite.projection(dc_data_members)
 
 ```{r}
 #Just the organizations
-plot(full_members$proj2)
-title("Test", sub = "Just the Organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
 
 plot(full_members_DC$proj2)
 title("Test", sub = "Just the Organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
 ```
 
 ```{r}
-E(full_members$proj2)
-E(full_members$proj2)$weight
-range01 <- function(x){(x-min(x))/(max(x)-min(x))}
-range01(E(full_members$proj2)$weight)
 
 E(full_members_DC$proj2)
 E(full_members_DC$proj2)$weight
@@ -136,10 +111,7 @@ range01(E(full_members_DC$proj2)$weight)
 
 This Range makes the scale smaller to improve viewing.
 ```{r}
-plot(full_members$proj2, edge.width = range01(E(full_members$proj2)$weight) * 20)
-title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
-
-plot(full_members_DC$proj2, vertex.size = 10, layout= layout.fruchterman.reingold,edge.curved=TRUE,vertex.color="blue", edge.color="red", edge.width = range01(E(full_members_DC$proj2)$weight) * 20)
+plot(full_members_DC$proj2, vertex.size = 25, layout= layout.fruchterman.reingold,vertex.color="blue", vertex.label.color="black", vertex.label.font=2, vertex.label.dist=1, edge.color="red", edge.width = range01(E(full_members_DC$proj2)$weight) * 20)
 title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
 
 ```
@@ -154,6 +126,11 @@ datanew %>%
   arrange(desc(n))
 
 ```
+
+```{r}
+
+```
+
 
 
 ```{r}
@@ -176,21 +153,30 @@ write.csv(datascisoc_1825_geocoded, file = "~/Desktop/DCHS2015/data/datascisoc_1
 
 ```{r}
 #This is a bar graph of the number of societies established by date reported by Silliman.
+datascisoc_1825_geocoded = read.csv("~/Desktop/DCHS2015/data/datascisoc_1825_geocoded.csv")
 state <- ggplot (datascisoc_1825_geocoded, aes (x=State))
 state + geom_bar (width=.5, fill="blue") + xlab ("State")
 
 year <- ggplot (datascisoc_1825_geocoded, aes (x=Year.Established)) 
-year + geom_bar (fill="red") + xlab ("Year Established")) +ggtitle ("Learned Societies Reported in Silliman's Journal-1825")
+year + geom_bar (fill="red") + xlab ("Year Established") +ggtitle ("Learned Societies Reported in Silliman's Journal-1825")
 #To do Need to figure out better x scale label to show all dates.
 
-
-org <- ggplot(data, aes(Organization))
-org + geom_bar(width=.5, fill="blue", color="darkblue") + coord_flip() +ggtitle ("Total Members of Societies DC relations")
+org <- ggplot(datascisoc_1825_geocoded, aes(Type))
+org + geom_bar(width=.5, fill="blue", color="darkblue") + coord_flip() +ggtitle ("Total Number of Types of Organizations")
 
 dcorg <- ggplot (datanew, aes(Organization), scale_x_log10())
 dcorg + geom_bar(width=.5, fill="blue", color="darkblue") + coord_flip() +ggtitle ("Total Members of Societies DC relations")
 #log scale not working
 
+```
+
+```{r}
+# Although the numbers are different in this sampe the general pattern is the same.
+learnsoc = read.csv("~/Desktop/DCHS2015/data/schol-soc-geocoded.csv")
+state_schol <- ggplot (learnsoc, aes (x=State))
+state + geom_bar (width=.5, fill="blue") + xlab ("State")
+year_schol <- ggplot (learnsoc, aes (x=Date.Established)) 
+year_schol + geom_bar (fill="red") + xlab ("Year Established") +ggtitle ("Learned Societies Reported in Bates 1743-1858")
 ```
 
 
@@ -286,6 +272,8 @@ write.csv(milit_soc_geocoded, file = "milit_soc_geocoded.csv")
 schol = read.csv("~/Desktop/DCHS2015/data/schol-soc-geocoded.csv")
 coll = read.csv("~/Desktop/DCHS2015/data/early_colleges_geocoded.csv")
 militgeo = read.csv("~/Desktop/DCHS2015/data/milit_soc_geocoded.csv")
+lib = read.csv ("~/Desktop/DCHS2015/libper2_geocoded.csv")
+
 #Preparing 1830 Map
 map_sp <- readOGR("nhgis-shp/", "state_1830")
 class(map_sp)
@@ -328,10 +316,12 @@ library(leaflet)
 
 leaflet() %>%
   addTiles() %>%
-  addPolygons(data = map1850, fillOpacity = 0, weight = 1, color = "black") %>%
+  addPolygons(data = map1830, fillOpacity = 0, weight = 1, color = "black") %>%
   addCircleMarkers(data = schol, color = "blue", fillOpacity = 0) %>%
   addCircleMarkers(data = coll, color = "red") %>%
-  addCircleMarkers(data = militgeo, color = "green")
+  addCircleMarkers(data = militgeo, color = "green") %>%
+  addCircleMarkers(data = lib, color = "orange")
+  
 ```
 
 
