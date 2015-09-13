@@ -57,15 +57,13 @@ library (igraph)
 ```
 
 ```{r}
-#Load membership rollls data
-
-data = read.csv("~/Desktop/DCHS2015/data/learnsoc1.csv")
-
+#Load membership rolls data
+# A list of members of different societies. Compilation of the American Academy of Arts and Sciences 1780-1817; American Philosophical Society 1768-1817; Columbian Institute for the Promotion of Arts and Sciences 1817-1817; Columbian Agricultural Society 1812; Federal Government 1816; Medical Society of the District of Columbia 1818-1821; U.S. Army 1816.
 datanew = read.csv("~/Desktop/DCHS2015/data/newdecnetwork.csv")
 
 ```
 
-After reading the data this sample set of membership lists from a variety of different learned societies between x and y. The list has 2262 members lists coming from x organizations.
+
 
 ```{r}
 data_members <- graph.data.frame(data, directed = FALSE)
@@ -344,15 +342,17 @@ periodize <- function(founding_date) {
   period <- NA
   period <- ifelse(founding_date <= 1776, "Colonial", period)
   period <- ifelse(founding_date >= 1776 & founding_date <= 1828, "Early National", period)
-  period <- ifelse(founding_date >1828, "Antebellum", period)
+  period <- ifelse(founding_date >1828 & founding_date <= 1860, "Antebellum", period)
   return(period)
-  period <- ifelse(founding_date >1860, "War and Postwar", period)
+  period <- ifelse(founding_date >=1860, "War and Postwar", period)
   return(period)
   }
   
 libraries <- libraries %>%
 mutate(period = periodize(founding_date))
 write.csv(libraries, file = "libraries_period.csv")
+#The War and Postwar part is not working properly.
+
 
 libraries_period <- read.csv("~/Desktop/DCHS2015/libraries_period.csv")
 #This loads a list of 2000 Libraries from the list of 8528 gathered from the Davies Project. The original had 16 variables. This process combines the locality and state into one variable making lib_per1 into 17 variables. Finally libper1_geocoded uses the Google api to geocode the items as a process yeilding 2 new variables. Using the same named function bind the lib_per1 and libper1_geocoded into one file and save it to the drive.
@@ -365,8 +365,14 @@ libper1_geocoded
 write.csv(libper1_geocoded, file = "libper1_geocoded.csv")
 
 
-
-
+# Second 2000
+lib_per2 <- read.csv("~/Desktop/DCHS2015/libperiod2.csv")
+lib_per2<- lib_per2%>%
+mutate(location=paste (locality, state))
+libper2_geocoded <- geocode(lib_per2$location, source = "google")
+libper2_geocoded <- cbind(lib_per2, libper2_geocoded)
+libper2_geocoded
+write.csv(libper2_geocoded, file = "libper2_geocoded.csv")
 
 
 milit_soc <- read.csv("~/Desktop/DCHS2015/data/militacadlist.csv")
