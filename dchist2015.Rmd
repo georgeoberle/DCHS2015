@@ -70,6 +70,8 @@ dc_data_members <- graph.data.frame(datanew, directed = FALSE)
 plot (dc_data_members, vertex.label = NA)
 title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
+
+
 ```
 
 
@@ -115,6 +117,118 @@ plot(full_members_DC$proj2, vertex.size = 25, layout= layout.fruchterman.reingol
 title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
 
 ```
+
+
+```{r}
+#Load Data USMPS Members List; APS Members List to 1817; US Army Officer list from 1816
+apsusmps = read.csv("~/Desktop/DCHS2015/data/apsusmps.csv")
+```
+
+```{r}
+apsusmps_members <- graph.data.frame(apsusmps, directed = FALSE)
+plot (apsusmps_members, vertex.label = NA)
+title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+
+apsusmps_members <- graph.data.frame(apsusmps, directed = FALSE)
+plot (apsusmps_members)
+title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+#Hairball
+```
+
+```{r}
+V(apsusmps_members)
+bipartite.mapping(apsusmps_members)
+
+V(apsusmps_members)$type <- bipartite.mapping(apsusmps_members)$type
+is.bipartite(apsusmps_members)
+plot(apsusmps_members, layout = layout.bipartite, vertex.label = NA)
+title("Test", sub = "A bipartite layout of members and organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+```
+
+```{r}
+apsumps_1 <- bipartite.projection(apsusmps_members)
+```
+
+
+```{r}
+#Just the organizations
+
+plot(apsumps_1$proj2)
+title("Test", sub = "Just the Organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+```
+
+```{r}
+
+E(apsumps_1$proj2)
+E(apsumps_1$proj2)$weight
+#24 shared
+```
+
+
+```{r}
+plot(apsumps_1$proj2, vertex.size = 40, layout= layout.fruchterman.reingold,vertex.color="blue", vertex.label.color="black", vertex.label.font=3, vertex.label.dist=1, edge.color="red", edge.width = range01(E(apsumps_1$proj2)$weight) * 20)
+title("Organizations", sub = "Weighted by Shared Members",cex.main = 3,   font.main= 3, col.main= "blue", cex.sub = 2, font.sub = 1, col.sub = "light blue")
+#+ 3/3 edges (vertex names):
+#[1] American Philosophical Society              --United States Military Philosophical Society
+#[2] American Philosophical Society              --U.S. Army                                   
+#[3] United States Military Philosophical Society--U.S. Army     
+```
+
+
+```{r}
+#Load Data USMPS Members List; APS Members List to 1817; US Army Officer list from 1816
+adddcfeds = read.csv("~/Desktop/DCHS2015/data/adddcfeds.csv")
+```
+
+```{r}
+adddcfeds_members <- graph.data.frame(adddcfeds, directed = FALSE)
+plot (adddcfeds_members, vertex.label = NA)
+title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+
+adddcfeds_members <- graph.data.frame(adddcfeds, directed = FALSE)
+plot (adddcfeds_members)
+title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+#Hairball
+```
+
+```{r}
+V(adddcfeds_members)
+bipartite.mapping(adddcfeds_members)
+
+V(adddcfeds_members)$type <- bipartite.mapping(adddcfeds_members)$type
+is.bipartite(adddcfeds_members)
+plot(adddcfeds_members, layout = layout.bipartite, vertex.label = NA)
+title("Test", sub = "A bipartite layout of members and organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+```
+
+```{r}
+addcfeds_1 <- bipartite.projection(adddcfeds_members)
+```
+
+
+```{r}
+#Just the organizations
+
+plot(addcfeds_1$proj2)
+title("Test", sub = "Just the Organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+```
+
+```{r}
+
+E(addcfeds_1$proj2)
+E(addcfeds_1$proj2)$weight
+#24 shared
+```
+
+
+```{r}
+plot(addcfeds_1$proj2, vertex.size = 40, layout= layout.fruchterman.reingold,vertex.color="blue", vertex.label.color="black", vertex.label.font=3, vertex.label.dist=1, edge.color="red", edge.width = range01(E(addcfeds_1$proj2)$weight) * 20)
+title("National Organizations", sub = "Weighted by Shared Members",cex.main = 3,   font.main= 3, col.main= "blue", cex.sub = 2, font.sub = 1, col.sub = "light blue")
+
+```
+
+
+
 
 ```{r}
 #Count
