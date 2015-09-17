@@ -487,6 +487,14 @@ libper3_geocoded <- cbind(lib_per3, libper3_geocoded)
 libper3_geocoded
 write.csv(libper3_geocoded, file = "libper3_geocoded.csv")
 
+libper4 <- read.csv("~/Desktop/DCHS2015/libperiod4.csv")
+libper4<- libper4%>%
+mutate(location=paste (locality, state))
+libper4_geocoded <- geocode(libper4$location, source = "google")
+libper4_geocoded <- cbind(libper4, libper4_geocoded)
+libper4_geocoded
+write.csv(libper4_geocoded, file = "libper4_geocoded.csv")
+
 
 milit_soc <- read.csv("~/Desktop/DCHS2015/data/militacadlist.csv")
 milit_soc<- milit_soc%>%
