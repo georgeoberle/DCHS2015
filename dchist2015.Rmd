@@ -60,6 +60,7 @@ library (igraph)
 #Load membership rolls data
 # A list of members of different societies. Compilation of the American Academy of Arts and Sciences 1780-1817; American Philosophical Society 1768-1817; Columbian Institute for the Promotion of Arts and Sciences 1817-1817; Columbian Agricultural Society 1812; Federal Government 1816; Medical Society of the District of Columbia 1818-1821; U.S. Army 1816.
 datanew = read.csv("~/Desktop/DCHS2015/data/newdecnetwork.csv")
+datanew2 = read.csv("~/Desktop/DCHS2015/data/APS_AAAS_CI_CA.csv")
 
 ```
 
@@ -70,7 +71,9 @@ dc_data_members <- graph.data.frame(datanew, directed = FALSE)
 plot (dc_data_members, vertex.label = NA)
 title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
-
+dc_data_members2 <- graph.data.frame(datanew2, directed = FALSE)
+plot (dc_data_members2, vertex.label = NA)
+title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
 ```
 
@@ -81,9 +84,17 @@ title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, c
 V(dc_data_members)
 bipartite.mapping(dc_data_members)
 
+V(dc_data_members2)
+bipartite.mapping(dc_data_members2)
+
 V(dc_data_members)$type <- bipartite.mapping(dc_data_members)$type
 is.bipartite(dc_data_members)
 plot(dc_data_members, layout = layout.bipartite, vertex.label = NA)
+title("Test", sub = "A bipartite layout of members and organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+
+V(dc_data_members2)$type <- bipartite.mapping(dc_data_members2)$type
+is.bipartite(dc_data_members2)
+plot(dc_data_members2, layout = layout.bipartite, vertex.label = NA)
 title("Test", sub = "A bipartite layout of members and organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
 ```
@@ -92,6 +103,9 @@ title("Test", sub = "A bipartite layout of members and organizations",cex.main =
 ```{r}
 
 full_members_DC <- bipartite.projection(dc_data_members)
+full_members_DC2 <- bipartite.projection(dc_data_members2)
+
+
 
 ```
 
@@ -101,6 +115,9 @@ full_members_DC <- bipartite.projection(dc_data_members)
 
 plot(full_members_DC$proj2)
 title("Test", sub = "Just the Organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+
+plot(full_members_DC2$proj2)
+title("Test", sub = "Just the Organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
 ```
 
 ```{r}
@@ -109,11 +126,20 @@ E(full_members_DC$proj2)
 E(full_members_DC$proj2)$weight
 range01 <- function(x){(x-min(x))/(max(x)-min(x))}
 range01(E(full_members_DC$proj2)$weight)
+
+
+E(full_members_DC2$proj2)
+E(full_members_DC2$proj2)$weight
+range01 <- function(x){(x-min(x))/(max(x)-min(x))}
+range01(E(full_members_DC2$proj2)$weight)
 ```
 
 This Range makes the scale smaller to improve viewing.
 ```{r}
 plot(full_members_DC$proj2, vertex.size = 25, layout= layout.fruchterman.reingold,vertex.color="blue", vertex.label.color="black", vertex.label.font=2, vertex.label.dist=1, edge.color="red", edge.width = range01(E(full_members_DC$proj2)$weight) * 20)
+title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+
+plot(full_members_DC2$proj2, vertex.size = 25, layout= layout.fruchterman.reingold,vertex.color="blue", vertex.label.color="black", vertex.label.font=2, vertex.label.dist=1, edge.color="red", edge.width = range01(E(full_members_DC2$proj2)$weight) * 20)
 title("Organizations", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
 
 ```
