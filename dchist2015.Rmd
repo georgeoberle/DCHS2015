@@ -61,26 +61,98 @@ library (igraph)
 # A list of members of different societies. Compilation of the American Academy of Arts and Sciences 1780-1817; American Philosophical Society 1768-1817; Columbian Institute for the Promotion of Arts and Sciences 1817-1817; Columbian Agricultural Society 1812; Federal Government 1816; Medical Society of the District of Columbia 1818-1821; U.S. Army 1816.
 datanew = read.csv("~/Desktop/DCHS2015/data/newdecnetwork.csv")
 datanew2 = read.csv("~/Desktop/DCHS2015/data/APS_AAAS_CI_CA.csv")
+socdata = read.csv("~/Desktop/DCHS2015/data/socdata.csv")
+threelarge = read.csv("~/Desktop/DCHS2015/data/test_APS_AAAS_ANS-1849.csv")
+```
+
+
+Graphing the membership APS/AAAS/ANS
+```{r}
+threelarge %>%
+  group_by(Year.Elected, Organization) %>%
+  summarize(n = n())  %>% 
+  ggplot(aes(x=Year.Elected, y= n, color = Organization )) +
+  geom_line() +
+ggtitle("Annual Elected Members of APS and AAAS") + ylab("Total Members Elected") + xlab("Year Elected")
+
+year <- ggplot(threelarge, aes(x=Year.Elected, fill= Organization ))
+year + geom_histogram(position = "dodge", binwidth = 1) +
+ggtitle("Annual Elected Members of APS and AAAS") + ylab("Total Members Elected") + xlab("Year Elected")
+
+threelarge %>%
+  filter(Year.Elected ==1817) %>%
+  graph.data.frame(directed = FALSE) %>%
+  plot(vertex.label = NA)
+title("APS and AAAS Shared Membership 1781")
+
+threelarge %>%
+  filter(Year.Elected ==1830) %>%
+  graph.data.frame(directed = FALSE) %>%
+  plot(vertex.label = NA)
+title("APS and AAAS Shared Membership 1781")
+
+```
+
+
+```{r}
+threelarge_df <- graph.data.frame(threelarge, directed = FALSE)
+plot (threelarge_df)
+title("Supporters of Founding a National Univesity", sub = "A network graph of members with name labels",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+```
+
+
+```{r}
+V(threelarge_df)
+bipartite.mapping(threelarge_df)
+V(threelarge_df)$type <- bipartite.mapping(threelarge_df)$type
+is.bipartite(threelarge_df)
+plot(threelarge_df, layout = layout.bipartite, vertex.label = NA)
+title("Suporters of Founding a National Univesity", sub = "A bipartite layout of members and organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
+```
+
+
+
+full_members
+
+we can run our bipartite projection function and use the data_members
+
+```{r}
+full_members <- bipartite.projection(threelarge_df)
+```
+
+
+```{r}
+plot(full_members$proj2)
+title("Suporters of Founding a National University", sub = "Just the Organizations",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+```
+
+```{r}
+E(full_members$proj2)
+E(full_members$proj2)$weight
+```
+
+```{r}
+plot(full_members$proj2, edge.width = E(full_members$proj2)$weight)
+title("Big Three National Learned Societies", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")
+```
+
+
+```{r}
+
+plot(full_members$proj2, edge.width = E(full_members$proj2)$weight*0.2, layout = layout.fruchterman.reingold(full_members$proj2, 
+       weights = E(full_members$proj2)$weight),edge.label.cex=1,vertex.shape="circle",edge.color="red", vertex.size = 25, vertex.color="lightblue", asp=0, margin=0,  vertex.label.dist = 0, vertex.label.cex = .5)
+title("abc", sub = "Weighted by Shared Members",cex.main = 2,   font.main= 2, col.main= "blue", cex.sub = 2, font.sub = 3, col.sub = "red")  
+
+#legend("bottomleft", legend = c("AAAS-American Academy of Arts and Sciences", "Circuit/Appeal", "SCOTUS", "Other"),
+       title = "Court type")
 
 ```
 
 
 
-```{r}
-dc_data_members <- graph.data.frame(datanew, directed = FALSE)
-plot (dc_data_members, vertex.label = NA)
-title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
-
-dc_data_members2 <- graph.data.frame(datanew2, directed = FALSE)
-plot (dc_data_members2, vertex.label = NA)
-title("Test", sub = "A network graph of members",cex.main = 2,   font.main= 4, col.main= "blue", cex.sub = 0.75, font.sub = 3, col.sub = "red")
-
-```
-
 
 
 ```{r}
-
 V(dc_data_members)
 bipartite.mapping(dc_data_members)
 
